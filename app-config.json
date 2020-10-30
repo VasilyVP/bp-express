@@ -1,0 +1,4 @@
+{
+    "accessLog": "data/logs/access.log",
+    "errorLog": "data/logs/error.log"
+}
