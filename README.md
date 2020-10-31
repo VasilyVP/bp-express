@@ -4,8 +4,8 @@ It's ExpressJS boilerplate
 ## Functions pre-installed
 1) nodemon with nodemon.json, start with the .env file
 2) Configurations:
-    1. .env - almost private data,
-    2. app-config.json - almost for paths;
+    1. .env - basically for private data,
+    2. app-config.json - basically for paths;
 3) express initialization (index.js)
 4) Logs:
     1. Debuggin with `Debug`
