@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Auth = require('../middleware/authentication');
+//const Auth = require('../middleware/authentication');
 
 router.get('/', async (req, res, next) => {
     res.json({

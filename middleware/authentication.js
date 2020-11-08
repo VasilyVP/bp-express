@@ -2,12 +2,13 @@ const JWT = require('jsonwebtoken');
 const validator = require('validator');
 
 const secret = process.env.AUTH_SECRET_STR;
+const jwtMaxAge = process.env.JWT_MAX_AGE || 6;
 
 class Authentication {
     static async getJWT(user) {
         return new Promise((resolve, reject) => {
             JWT.sign(user, secret, {
-                expiresIn: '12h'
+                expiresIn: String(jwtMaxAge) + 'h',
             }, (err, token) => {
                 if (err) reject(err);
                 resolve(token);
@@ -19,13 +20,17 @@ class Authentication {
         res.cookie('jwt', token, {
             httpOnly: true,
             sameSite: true,
-            maxAge: parseInt(process.env.JWT_MAX_AGE) * 60*60*1000,
+            maxAge: Number(process.env.JWT_MAX_AGE) * 60 * 60 * 1000,
         })
     }
 
     static async setJWTCookie(user, res) {
-        const token = await Authentication.getJWT(user);
-        Authentication.setTokenCookie(res, token);
+        try {
+            const token = await Authentication.getJWT(user);
+            Authentication.setTokenCookie(res, token);
+        } catch (err) {
+            throw Error("Can't sign jwt cookie: " + err.message);
+        }
     }
 
     static async verifyJWT(jwt) {
@@ -39,7 +44,7 @@ class Authentication {
 
     static async authentication(req, res, next) {
         const jwt = req.cookies.jwt;
-        
+
         if (jwt && validator.isJWT(jwt)) {
             const user = await Authentication.verifyJWT(jwt);
             req.user = user;

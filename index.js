@@ -4,7 +4,7 @@
  * Application initializing
  */
 const app = require('./app');
-var debug = require('debug')('server:server');
+const debug = require('debug')('server:server');
 const http = require('http');
 //const https = require('https');
 
@@ -17,7 +17,7 @@ app.set('port', port);
 //const cert = fs.readFileSync('./data/private/server.cert');
 
 /** Create HTTP server */
-var server = http.createServer(app);
+const server = http.createServer(app);
 //const server = https.createServer({ key, cert }, app);
 
 /** Listen on provided port, on all network interfaces */
@@ -31,7 +31,7 @@ function onError(error) {
         throw error;
     }
 
-    var bind = typeof port === 'string'
+    const bind = typeof port === 'string'
         ? 'Pipe ' + port
         : 'Port ' + port;
 
@@ -52,8 +52,8 @@ function onError(error) {
 
 /** Event listener for HTTP server "listening" event */
 function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
+    const addr = server.address();
+    const bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
